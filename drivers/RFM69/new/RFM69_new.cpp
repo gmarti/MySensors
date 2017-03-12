@@ -661,14 +661,14 @@ LOCAL bool RFM69_setRadioMode(const rfm69_radio_mode_t newRadioMode)
 LOCAL void RFM69_powerUp(void)
 {
 #if defined(MY_RFM69_POWER_PIN)
-	hwDigitalWrite(MY_RFM69_POWER_PIN, HIGH);
+	hwDigitalWrite(MY_RFM69_POWER_PIN, LOW);
 	delay(RFM69_POWERUP_DELAY_MS);
 #endif
 }
 LOCAL void RFM69_powerDown(void)
 {
 #if defined(MY_RFM69_POWER_PIN)
-	hwDigitalWrite(MY_RFM69_POWER_PIN, LOW);
+	hwDigitalWrite(MY_RFM69_POWER_PIN, HIGH);
 #endif
 }
 
@@ -795,7 +795,8 @@ LOCAL int16_t RFM69_getReceivingRSSI(void)
 
 LOCAL bool RFM69_setTxPowerPercent(uint8_t newPowerPercent)
 {
-	newPowerPercent = min(newPowerPercent, 100);	// limit
+	uint8_t limit = 100;
+	newPowerPercent = min(newPowerPercent, limit);	// limit
 	const rfm69_powerlevel_t newPowerLevel = static_cast<rfm69_powerlevel_t>
 	        (RFM69_MIN_POWER_LEVEL_DBM + (RFM69_MAX_POWER_LEVEL_DBM
 	                                      - RFM69_MIN_POWER_LEVEL_DBM) * (newPowerPercent / 100.0f));
